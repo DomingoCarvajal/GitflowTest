@@ -32,13 +32,45 @@ def users():
     print(ordered_data[:10])
 
 def days():
-    pass
+    day_tweets = defaultdict(lambda : 0)
+
+    for i in range(len(data)):
+        day = data[i]["date"][:10]
+        print(day)
+        day_tweets[day] += 1
+        print(day_tweets)
+
+    lista_day_tweets = []
+    for key, value in day_tweets.items():
+        lista_day_tweets.append((key, value))
+
+    ordered_data = sorted(lista_day_tweets, key=lambda x: x[1], reverse=True)
+    print(ordered_data[:10])
 
 def hashtags():
-    pass
+    hashtag_tweets = defaultdict(lambda : 0)
+
+    for i in range(len(data)):
+        hashtags = []
+        words = data[i]["content"].split(" ")
+        for element in words:
+            print(element)
+            if element:
+                if element[0] == "#":
+                    hashtags.append(element)
+        for j in range(len(hashtags)):
+            hashtag_tweets[hashtags[j]] += 1
+       
+
+    lista_hashtag_tweets = []
+    for key, value in hashtag_tweets.items():
+        lista_hashtag_tweets.append((key, value))
+
+    ordered_data = sorted(lista_hashtag_tweets, key=lambda x: x[1], reverse=True)
+    print(ordered_data[:10])
 
 def main():
     
-    users()
+    hashtags()
 
 main()
