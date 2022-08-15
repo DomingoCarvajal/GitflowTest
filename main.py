@@ -7,14 +7,30 @@ with open(json_file_path, 'r') as j:
      contents = json.loads(j.read())
      data = contents["data"]
 
+def choose_input(opciones):
+
+    #Función que crea Menús aprueba de errores
+    #recibe de input una lista de opciones
+
+    while True:
+        print('')
+        for i in range(len(opciones)):
+            print('[' + str(i) + '] ' + opciones[i])
+        a = input('Indique su opción:\n')
+        if a.isnumeric() == False:
+            print('Opción inválida')
+        elif int(a) < 0 or int(a) >= len(opciones):
+            print('Opción inválida')
+        else:
+            return a
+            break
+
 def retweeted():
 
     ordered_data = sorted(data, key=lambda x: x["retweetCount"], reverse=True)
 
     for i in range(10):
-        print("")
-        print(ordered_data[i]["content"])
-        print(f"Retweet count: {ordered_data[i]['retweetCount']}")
+        print((ordered_data[i]["content"], ordered_data[i]['retweetCount'] ))
     
     
 
@@ -54,7 +70,6 @@ def hashtags():
         hashtags = []
         words = data[i]["content"].split(" ")
         for element in words:
-            print(element)
             if element:
                 if element[0] == "#":
                     hashtags.append(element)
@@ -70,7 +85,16 @@ def hashtags():
     print(ordered_data[:10])
 
 def main():
-    
-    hashtags()
+
+    opciones = ["Top 10 tweets con más retweets", "Top 10 usuarios con más tweets", "Top 10 días con más tweets", "Top 10 hashtags con más tweets"]
+    opcion = choose_input(opciones)
+    if opcion == "0":
+        retweeted()
+    elif opcion == "1":
+        users()
+    elif opcion == "2":
+        days()
+    elif opcion == "3":
+        hashtags()
 
 main()
